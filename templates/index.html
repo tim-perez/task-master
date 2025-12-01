@@ -10,6 +10,15 @@
   <div class="content">
     <h1>Task Master</h1>
 
+    {% if current_user.is_authenticated %}
+      <p>Welcome, {{ current_user.username }}</p>
+      <a href="/logout">Logout</a>
+      {% else %}
+      <a href="/login">Login</a>
+      <br>
+      <a href="/register">Register</a>
+    {% endif %}
+
     <form action="/" method="POST">
       <input type="text" name="content" id="content">
       <input type="submit" value="Add Task">
