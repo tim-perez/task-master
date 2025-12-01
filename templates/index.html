@@ -19,12 +19,12 @@
       <a href="/register">Register</a>
     {% endif %}
 
-    <form action="/" method="POST">
+    <form id="todo-form">
       <input type="text" name="content" id="content">
       <input type="submit" value="Add Task">
     </form>
     <br>
-    <table>
+    <table id="todo-table">
       <tr>
         <th>Task</th>
         <th>Date Added</th>
@@ -43,5 +43,6 @@
       {% endfor %}
     </table>
   </div>
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 </html>

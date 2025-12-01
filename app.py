@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -148,6 +148,26 @@ def logout():
   logout_user()
   return redirect('/login')
 
+@app.route('/api/add', methods=['POST'])
+@login_required
+def add_task_api():
+  # 1. Get the data from the "text message" (JSON)
+  data = request.get_json()
+  task_content = data.get('content')
+
+  # 2. Save it to the database (Standard logic)
+  new_task = Todo(content=task_content, author=current_user)
+  db.session.add(new_task)
+  db.session.commit()
+
+  # 3. Send back a receipt (JSON), not a webpage! 
+
+  return jsonify({
+    'result': 'success',
+    'id': new_task.id,
+    'content': new_task.content,
+    'date': new_task.date_created.strftime('%Y-%m-%d')
+  })
 
 
 if __name__ == '__main__':
